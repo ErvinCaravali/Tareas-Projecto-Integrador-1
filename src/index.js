@@ -8,7 +8,7 @@ const root = createRoot(document.getElementById('root'));
 const ContainerRoot = () => (
   <Canvas
     camera={{
-      position: [0, 0, 200], // Posición de la cámara
+      position: [2, 1, 100], // Posición de la cámara
       
     }}
   >
