@@ -40,14 +40,26 @@ export default function World(props) {
                 </mesh>
                 <mesh castShadow={true} geometry={nodes.WoodenFence.geometry}>
                     <meshStandardMaterial
-                        color={"#FF8E07"}
+                        color={"#6B4226"}
                         metalness={0}
                         roughness={0.5}
                     />
                 </mesh>
                 <group>
-                    <mesh ref={leavesRef} castShadow={true} geometry={nodes.Tree_1.geometry} material={materials.leaves_material} />
-                    <mesh castShadow={true} geometry={nodes.Tree_2.geometry} material={materials.root_material} />
+                    <mesh ref={leavesRef} castShadow={true} geometry={nodes.Tree_1.geometry} material={materials.leaves_material}>
+                    <meshStandardMaterial
+                     color={"#6B4226"} // Color naranja intenso
+                     metalness={0}
+                     roughness={0.5}
+                     />
+                    </mesh> 
+                    <mesh castShadow={true} geometry={nodes.Tree_2.geometry} material={materials.root_material} >
+                    <meshStandardMaterial
+                     color={"#6B4226"} // Color naranja intenso
+                     metalness={0}
+                     roughness={0.5}
+                     />
+                    </mesh>
                 </group>
             </group>
         </group>
