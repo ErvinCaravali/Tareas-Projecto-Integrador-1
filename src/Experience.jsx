@@ -1,22 +1,25 @@
-import { BakeShadows, Loader, OrbitControls } from "@react-three/drei";
-import World from "./world/World";
-import Lights from "./lights/Lights";
-import Environments from "./environments/Environments";
-import { Perf } from "r3f-perf";
-import { Suspense } from "react";
-
+import { OrbitControls } from "@react-three/drei";
+import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
+import  World  from './world/World.jsx'
+import  Box  from './box/Box.jsx';
+import  Cone from './cone/Cone.jsx'
+import  Sphere from './sphere/Sphere.jsx'
+import './styles.css';
 const Experience = () => {
+    const object1 = useRef(null);
+
+ 
+    
     return (
         <>
-            <Perf position="top-left" />
-            <BakeShadows />
-            <OrbitControls makeDefault />
-
-            <Suspense fallback={null}>
-                <Lights />
-                <Environments />
-                <World />
-            </Suspense>
+            <ambientLight />
+            <directionalLight position={[10, 10, 5]} />
+            <OrbitControls />
+            <World/>
+            <Box/>
+            <Cone/>
+            <Sphere/>
         </>
     )
 }

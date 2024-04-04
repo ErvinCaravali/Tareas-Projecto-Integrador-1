@@ -1,58 +1,37 @@
-import { useGLTF, useTexture } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import React, { useRef } from "react";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { RepeatWrapping } from "three";
 
-export default function World(props) {
-    const { nodes, materials } = useGLTF("/assets/models/world/World.glb")
-    const PATH = "/assets/textures/floor/";
-    
-    const propsTexture = useTexture({
-        map: PATH + "lichen_rock_diff_1k.jpg",
-        normalMap: PATH + "lichen_rock_nor_gl_1k.jpg",
-        roughnessMap: PATH + "lichen_rock_disp_1k.jpg",
-        displacementMap: PATH + "lichen_rock_disp_1k.jpg",
-    });
+export default function WorldObject1(props) {
+    const { nodes, materials } = useGLTF("./assets/models/world/World.glb");
+    const object1 = useRef(null);
+    const PATH = './assets/textures/floor/';
 
-    const leavesRef = useRef(null);
+    const propsTexture = {
+        map: useTexture(PATH + 'lichen_rock_diff_1k.jpg'),
+        normalMap: useTexture(PATH + 'lichen_rock_nor_gl_1k.jpg'),
+        displacementMap: useTexture(PATH + 'lichen_rock_disp_1k.jpg'),
+        roughnessMap: useTexture(PATH + 'lichen_rock_rough_1k.jpg'),
+    };
 
-    propsTexture.map.repeat.set(4, 64);
+    propsTexture.map.repeat.set(4, 120);
     propsTexture.map.wrapS = propsTexture.map.wrapT = RepeatWrapping;
 
-    propsTexture.normalMap.repeat.set(4, 64);
+    propsTexture.normalMap.repeat.set(4, 120);
     propsTexture.normalMap.wrapS = propsTexture.normalMap.wrapT = RepeatWrapping;
 
-    propsTexture.roughnessMap.repeat.set(4, 64);
-    propsTexture.roughnessMap.wrapS = propsTexture.roughnessMap.wrapT = RepeatWrapping;
-
-    propsTexture.displacementMap.repeat.set(4, 64);
+    propsTexture.displacementMap.repeat.set(4, 120);
     propsTexture.displacementMap.wrapS = propsTexture.displacementMap.wrapT = RepeatWrapping;
 
-    useFrame((state, delta)=>{
-        leavesRef.current.rotation.y += 1 * delta;
-    } )
+    propsTexture.roughnessMap.repeat.set(4, 120);
+    propsTexture.roughnessMap.wrapS = propsTexture.roughnessMap.wrapT = RepeatWrapping;
+
     return (
-        <group {...props} dispose={null}>
-            <group>
-                {/* <mesh geometry={nodes.Walls.geometry} material={materials.Material} /> */}
-                <mesh receiveShadow={true} geometry={nodes.Floor.geometry} >
-                    <meshStandardMaterial {...propsTexture} opacity={1} transparent={false}/>
-                </mesh>
-                <mesh castShadow={true} geometry={nodes.WoodenFence.geometry}>
-                    <meshStandardMaterial
-                        color={"#FF8E07"}
-                        metalness={0}
-                        roughness={0.5}
-                    />
-                </mesh>
-                <group>
-                    <mesh ref={leavesRef} castShadow={true} geometry={nodes.Tree_1.geometry} material={materials.leaves_material} />
-                    <mesh castShadow={true} geometry={nodes.Tree_2.geometry} material={materials.root_material} />
-                </group>
-            </group>
+        <group ref={object1} position={[0, 0, 0]} rotation={[0, 0, 0]} scale={[1, 1, 1]} >
+            <mesh geometry={nodes.walls.geometry} material={materials.Material} />
+            <mesh geometry={nodes.floor.geometry}>
+                <meshStandardMaterial {...propsTexture} />
+            </mesh>
         </group>
     );
 }
-
-useGLTF.preload("/assets/models/world/World.glb");
-
